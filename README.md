@@ -38,14 +38,15 @@ errors will be collected, the aborted session will be counted as a test failure 
 in the test results summary.
 
 The return value from `run()` is a hash with the following fields:
-    :total        - total number of sessions that were run
-    :success      - total number of sessions that completed without raising a TestFailure
-    :failure      - total number of sessions that raised a TestFailure
-    :failures     - array containing the exception data element for each failed session
-    :failure_rate - the rate of session failures compared to completed sessions (0 to 1)
-    :min          - the number of seconds that the fastest session completed in
-    :max          - the number of seconds that the slowest session completed in
-    :average      - average number of seconds for all test sessions (including failures)
-    :percentile95 - 95% of the sessions completed in this number of seconds or less
+
+* `:total`       - total number of sessions that were run
+* `:success`      - total number of sessions that completed without raising a TestFailure
+* `:failure`      - total number of sessions that raised a TestFailure
+* `:failures`     - array containing the exception data element for each failed session
+* `:failure_rate` - the rate of session failures compared to completed sessions (0 to 1)
+* `:min`          - the number of seconds that the fastest session completed in
+* `:max`          - the number of seconds that the slowest session completed in
+* `:average`      - average number of seconds for all test sessions (including failures)
+* `:percentile95` - 95% of the sessions completed in this number of seconds or less
 
 Results in seconds could be fractional seconds.
