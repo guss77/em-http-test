@@ -1,0 +1,4 @@
+#!/bin/bash
+
+gemfile="$(gem build em-http-test.gemspec | grep File | cut -d: -f2)"
+sudo gem install --local $gemfile
