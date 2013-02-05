@@ -33,23 +33,25 @@ module EventMachine::HttpTest
 			
 			# do another run
 			request = @testreq.toRequest
-			request.errback { |r| self.fail("HTTP error calling #{r.last_effective_url}: #{r.response_header.status}") }
-			request.callback do |r|
-				if r.response_header.status >= 400
-					self.fail("HTTP error #{r.response_header.status}")
-					next
+			request.errback { |r| self.handleResponse(r) }
+			request.callback { |r| self.handleResponse(r) }
+		end
+		
+		def handleResponse(r)
+			if r.response_header.status >= 400
+				self.fail("HTTP error #{r.response_header.status} calling #{r.last_effective_url}")
+				return
+			end
+			
+			begin
+				@testreq = @fiber.resume r
+				case when @testreq.nil?
+					self.succeed("Test is done")
+				else
+					self.process
 				end
-				
-				begin
-					@testreq = @fiber.resume r
-					case when @testreq.nil?
-						self.succeed("Test is done")
-					else
-						self.process
-					end
-				rescue TestFailure => e
-					self.fail(e.message)
-				end
+			rescue TestFailure => e
+				self.fail(e.message)
 			end
 		end
 		
