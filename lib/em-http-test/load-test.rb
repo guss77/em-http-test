@@ -24,6 +24,7 @@ module EventMachine::HttpTest
 		# stop the test and don't execute any more test runners
 		def abort
 			@running = false
+			@runners.each { |r| r.abort }
 		end
 
 		# register a failure handler

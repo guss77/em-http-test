@@ -14,13 +14,18 @@ module EventMachine::HttpTest
 		def initialize(f)
 			@fiber = f
 			@testreq = @fiber.resume # first call, so no data to test
+			@running = true
 			process
+		end
+		
+		def abort
+			@running = false
 		end
 		
 		# Run a step of the test by calling the test generated URL
 		# and submitting the results to be processed
 		def process
-			unless @fiber.alive?
+			unless @fiber.alive? and @running
 				# if the fiber has completed, then we succeeded
 				self.succeed()
 				return

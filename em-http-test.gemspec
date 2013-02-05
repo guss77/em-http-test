@@ -17,9 +17,9 @@ Gem::Specification.new do |s|
 	#s.add_dependency "eventmachine", ">= 0.12.0"
 	s.add_dependency "em-http-request", ">= 0.3.0"
 	
-	s.add_development_dependency "rspec"
+	#s.add_development_dependency "rake"
 	
-	s.files         = `git ls-files`.split("\n")
+	s.files         = Dir['lib/**/*.rb'] + Dir['*.gemspec'] + Dir['*.md']
 	#s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
 	s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
 	s.require_paths = ["lib"]

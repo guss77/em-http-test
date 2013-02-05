@@ -16,6 +16,7 @@ require 'em-http-test/load-test'
 require 'em-http-test/test-request'
 
 module EventMachine::HttpTest
+	@@notifytimer = 10
 	
 	# run a load test by executing the test block multiple times in the
 	# specified concurrency. The test will be executed for a total of runtime seconds
@@ -40,7 +41,7 @@ module EventMachine::HttpTest
 			test = LoadTest.new(concurrency) { block.call }
 			test.onsuccess { |t| stats[:success] += 1; stats[:total] += 1; successTimes << t }
 			test.onfailure { |t,e| stats[:failure] += 1; stats[:total] += 1; successTimes << t; stats[:failures] << e }
-			EventMachine.add_periodic_timer(1) { puts "#{stats[:total]} tests run in #{(Time.new - startTime).to_i} seconds" }
+			EventMachine.add_periodic_timer(@@notifytimer) { puts "#{stats[:total]} tests ran in #{(Time.new - startTime).to_i} seconds" }
 			EventMachine.add_timer(runtime) { test.abort }
 		end
 		
