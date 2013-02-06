@@ -8,6 +8,14 @@ module EventMachine::HttpTest
 	
 	# Base test request object that contains the test data
 	class Request
+		@@reqOptions = {
+			:connect_timeout => 5,        # default connection setup timeout
+			:inactivity_timeout => 30,    # default connection inactivity (post-setup) timeout
+		}
+		
+		def self.option(opts = {})
+			opts.each { |k,v| self.reqOptions[k] =v }
+		end
 	
 		def initialize(type, url, options = {})
 			@type = type
@@ -20,15 +28,11 @@ module EventMachine::HttpTest
 		end
 		
 		def toRequest
-			opts = {
-				:connect_timeout => 5,        # default connection setup timeout
-				:inactivity_timeout => 30,    # default connection inactivity (post-setup) timeout
-				}
 			case @type
 			when :GET
-				EM::HttpRequest.new(@url, opts).get @options
+				EM::HttpRequest.new(@url, @@reqOptions).get @options
 			when :POST
-				EM::HttpRequest.new(@url, opts).post @options
+				EM::HttpRequest.new(@url, @@reqOptions).post @options
 			end
 		end
 	end
