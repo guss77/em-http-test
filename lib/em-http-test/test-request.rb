@@ -20,11 +20,15 @@ module EventMachine::HttpTest
 		end
 		
 		def toRequest
+			opts = {
+				:connect_timeout => 5,        # default connection setup timeout
+				:inactivity_timeout => 30,    # default connection inactivity (post-setup) timeout
+				}
 			case @type
 			when :GET
-				EM::HttpRequest.new(@url).get @options
+				EM::HttpRequest.new(@url, opts).get @options
 			when :POST
-				EM::HttpRequest.new(@url).post @options
+				EM::HttpRequest.new(@url, opts).post @options
 			end
 		end
 	end
