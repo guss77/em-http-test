@@ -14,7 +14,7 @@ module EventMachine::HttpTest
 		}
 		
 		def self.option(opts = {})
-			opts.each { |k,v| self.reqOptions[k] =v }
+			opts.each { |k,v| @@reqOptions[k] =v }
 		end
 	
 		def initialize(type, url, options = {})
