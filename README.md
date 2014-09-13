@@ -15,7 +15,7 @@ Usage is very simple, for example:
     concurrency = 10000
     runtime = 300
 
-    p EM::HttpTest::run(concurrency, runtime) do
+    EM::HttpTest::run(concurrency, runtime) do
         response = EM::HttpTest::post('http://mytestapp/login') :query => { 'username' => 'oded', 'password' => '123' }
         sessionid = response['PHPSESSIONID']
         raise EM::HttpTest::TestFailure, "Error in login" unless response.response_header.status == 200
