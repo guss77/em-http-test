@@ -16,11 +16,11 @@ Usage is very simple, for example:
     runtime = 300
 
     EM::HttpTest::run(concurrency, runtime) do
-        response = EM::HttpTest::post('http://mytestapp/login') :query => { 'username' => 'oded', 'password' => '123' }
-        sessionid = response['PHPSESSIONID']
+        response = EM::HttpTest::post('http://mytestapp/login', :query => { 'username' => 'oded', 'password' => '123' }
+        sessionid = response['PHPSESSIONID'])
         raise EM::HttpTest::TestFailure, "Error in login" unless response.response_header.status == 200
-        response = EM::HttpTest::get('http://mytestapp/list') :query => { 'filter' => 'all' },
-            :head { 'PHPSESSIONID' => sessionid }
+        response = EM::HttpTest::get('http://mytestapp/list', :query => { 'filter' => 'all' },
+            :head => { 'PHPSESSIONID' => sessionid })
         raise EM::HttpTest::TestFailure, "Error in list" unless response.response_header.status == 200
     end
 
